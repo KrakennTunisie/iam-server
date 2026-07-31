@@ -2,7 +2,7 @@ package com.krakennTunisie.IAM_server.domain.model;
 
 import java.util.List;
 
-public class User {
+public class User{
 
     private String keycloakId;
     private String userName;
@@ -17,7 +17,5 @@ public class User {
 
 
     private List<Role> roles;
-
-
 
 }
