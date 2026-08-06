@@ -23,6 +23,13 @@ spring:
   flyway:
     enabled: false
 
+keycloak:
+  auth-server-url: http://localhost:8080
+  realm: test-realm
+  resource: test-client
+  credentials:
+    secret: test-secret
+
   storage:
     local:
       root-path: ./target/test-storage
