@@ -26,7 +26,7 @@ spring:
 keycloak:
   auth-server-url: http://localhost:8080
   realm: test-realm
-  resource: test-client
+  client-id: test-client
   credentials:
     secret: test-secret
 
