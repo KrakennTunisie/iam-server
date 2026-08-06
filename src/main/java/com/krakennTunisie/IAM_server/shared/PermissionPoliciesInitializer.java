@@ -30,8 +30,7 @@ public class PermissionPoliciesInitializer {
         for (ClientProperties client : properties.getClients()) {
 
             clientUseCase.createIfAbsent(client.getClientId());
-            log.info("Client {} synchronized",
-                    client.getClientId());
+            log.info("Client {} synchronized", client.getClientId());
 
             log.info("Processing client {}", client.getClientId());
 

@@ -1,0 +1,47 @@
+services:
+  iam-server:
+    build:
+      context: .
+    container_name: iam-server
+    ports:
+      - "8085:8085"
+    depends_on:
+      iam-db:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - iam_storage:/app/storage
+    networks:
+      - ms-net
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  iam-db:
+    image: postgres:18
+    container_name: iam-db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: iam_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - iam_db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d iam_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - ms-net
+
+volumes:
+  iam_storage:
+  iam_db_data:
+
+networks:
+  ms-net:
+    external: true
