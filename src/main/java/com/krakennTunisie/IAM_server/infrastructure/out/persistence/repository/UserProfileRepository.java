@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserProfileRepository extends JpaRepository<UserProfileEntity, UUID> {
@@ -39,6 +40,13 @@ public interface UserProfileRepository extends JpaRepository<UserProfileEntity, 
             @Param("roleFilter") String roleFilter,
             Pageable pageable
     );
+
+    @Query("""
+    SELECT u.keycloakUserId
+    FROM UserProfileEntity u
+    WHERE LOWER(u.role) = LOWER(:role)
+    """)
+    List<UUID> findUserIdsByRole(@Param("role") String role);
 
     boolean existsByKeycloakUserId(String keycloakUserId);
 

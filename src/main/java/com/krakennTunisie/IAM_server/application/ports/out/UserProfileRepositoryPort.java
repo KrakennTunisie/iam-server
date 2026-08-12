@@ -7,6 +7,8 @@ import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.UserResp
 import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.UserRoleUpdateDTO;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface UserProfileRepositoryPort extends RepositoryPort<
         UserResponseDTO,
         UserResponseDTO,
@@ -16,6 +18,8 @@ public interface UserProfileRepositoryPort extends RepositoryPort<
         >{
 
     Page<UserResponseDTO> getAllUsers(String keyword, String statusFilter, String roleFilter, int page, int size);
+
+    List<String> getAllUsersIDsByRole(String role);
 
     UserDetailsDTO getUserDetails(String idUser);
 

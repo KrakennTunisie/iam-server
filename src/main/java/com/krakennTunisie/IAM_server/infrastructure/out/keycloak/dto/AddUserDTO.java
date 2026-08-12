@@ -1,5 +1,6 @@
 package com.krakennTunisie.IAM_server.infrastructure.out.keycloak.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class AddUserDTO {
 
     private String username;

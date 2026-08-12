@@ -7,6 +7,8 @@ import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.UserResp
 import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.UserRoleUpdateDTO;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface UserProfileUseCase extends BaseUseCase<
         UserResponseDTO,
         UserResponseDTO,
@@ -16,9 +18,13 @@ public interface UserProfileUseCase extends BaseUseCase<
 
     Page<UserResponseDTO> getAllUsers(String keyword, String statusFilter, String roleFilter, int page, int size);
 
+    List<String> getAllUsersIDsByRole(String role);
+
     UserDetailsDTO getUserDetails(String userId);
 
     void updateUserRole(UserRoleUpdateDTO userRoleUpdateDTO);
+
+    boolean existsByEmail(String email);
 
     boolean existsByEmailAndIdNot(String email, String idUser);
 
