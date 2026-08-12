@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class PermissionPoliciesInitializer {
     private final PermissionUseCase permissionUseCase;
     private final ClientUseCase clientUseCase;
     private final SecurityPoliciesConfig properties;
+    private final ApplicationEventPublisher publisher;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initialize() {
@@ -59,6 +61,7 @@ public class PermissionPoliciesInitializer {
         }
 
         log.info("Keycloak permissions synchronized.");
+        publisher.publishEvent(new PermissionPoliciesInitializedEvent());
 
     }
 

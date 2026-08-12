@@ -199,6 +199,13 @@ public class UserProfileRepositoryAdapter implements UserProfileRepositoryPort {
     }
 
     @Override
+    public List<String> getAllUsersIDsByRole(String role) {
+        return userProfileRepository.findUserIdsByRole(role).stream().map(
+                String::valueOf
+        ).toList();
+    }
+
+    @Override
     public UserDetailsDTO getUserDetails(String idUser) {
         if(!userProfileRepository.existsByKeycloakUserId(idUser)){
             throw IAMException.notFound("Utilisateur", "id Keycloak", idUser);
@@ -232,9 +239,10 @@ public class UserProfileRepositoryAdapter implements UserProfileRepositoryPort {
 
         UserProfileEntity userProfileEntity = userProfileRepository.findByKeycloakUserId(userRoleUpdateDTO.getIdUser());
 
-        MailJobRequest mailJobRequest = mailJobRequestFactory.createRoleAssigned(userProfileEntity.getEmail(), userRoleUpdateDTO.getRoleName());
+       // MailJobRequest mailJobRequest = mailJobRequestFactory.createRoleAssigned(userProfileEntity.getEmail(), userRoleUpdateDTO.getRoleName());
 
-        mailNotificationRepositoryPort.createMailJob(mailJobRequest);
+        //mailNotificationRepositoryPort.createMailJob(mailJobRequest);
+
         userProfileEntity.setRole(userRoleUpdateDTO.getRoleName());
 
         userProfileRepository.save(userProfileEntity);
