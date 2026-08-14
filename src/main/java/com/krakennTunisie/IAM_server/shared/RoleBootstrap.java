@@ -6,6 +6,7 @@ import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.RoleAddD
 import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.RolePermissionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Profile("!test")
 public class RoleBootstrap {
 
     private final SecurityPoliciesConfig properties;
