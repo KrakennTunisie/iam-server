@@ -17,7 +17,7 @@ public class AdminBootstrap {
     private final AdminBootstrapProperties properties;
     private final UserProfileUseCase userService;
 
-    @EventListener(PermissionPoliciesInitializedEvent.class)
+    @EventListener(RoleInitializedEvent.class)
     public void initialize() {
 
         if (!properties.isEnabled()) {

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,15 @@ public class UseProfileService implements UserProfileUseCase {
     @Override
     public UserResponseDTO create(AddUserDTO request) {
         UserResponseDTO userResponseDTO = userProfileRepositoryPort.create(request);
+
+        AuditEvent auditEvent =  auditEventFactory.userCreated(
+                UUID.fromString(userResponseDTO.getKeycloakUserId()),
+                userResponseDTO.getKeycloakUserId(),
+                Map.of("email", userResponseDTO.getEmail()),
+                "xxx",
+                null);
+        auditEventPublisherPort.publish(auditEvent);
+
         return userResponseDTO;
     }
 
