@@ -27,8 +27,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class KeycloakRoleRepositoryAdapter implements RoleRepositoryPort {
 
-    private final KeycloakMapper keycloakMapper;
-
     private final Keycloak keycloak;
 
     @Value("${keycloak.realm}")
@@ -46,11 +44,7 @@ public class KeycloakRoleRepositoryAdapter implements RoleRepositoryPort {
     public RoleDTO create(RoleAddDTO request) {
         RolesResource roles = realm().roles();
 
-        boolean exists = roles.list()
-                .stream()
-                .anyMatch(r -> r.getName().equalsIgnoreCase(request.getName()));
-
-        if (exists) {
+        if (this.existsByName(request.getName())) {
             throw IAMException.alreadyExists("Rôle", "nom", request.getName());
         }
 
@@ -236,6 +230,15 @@ public class KeycloakRoleRepositoryAdapter implements RoleRepositoryPort {
 
         return toRoleDTO(roleRepresentation, clientMap);
 
+    }
+
+    @Override
+    public boolean existsByName(String roleName) {
+        RolesResource roles = realm().roles();
+
+        return roles.list()
+                .stream()
+                .anyMatch(r -> r.getName().equalsIgnoreCase(roleName));
     }
 
     @Override

@@ -45,6 +45,11 @@ public class RoleService implements RoleUseCase {
     }
 
     @Override
+    public boolean existsByName(String roleName) {
+        return roleRepositoryPort.existsByName(roleName);
+    }
+
+    @Override
     public RoleDTO getRoleByName(String roleName) {
         return roleRepositoryPort.getRoleByName(roleName);
     }

@@ -5,6 +5,7 @@ import com.krakennTunisie.IAM_server.infrastructure.out.keycloak.config.Security
 import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.RoleAddDTO;
 import com.krakennTunisie.IAM_server.infrastructure.out.persistence.dto.RolePermissionDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -15,6 +16,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Profile("!test")
+@Slf4j
 public class RoleBootstrap {
 
     private final SecurityPoliciesConfig properties;
@@ -24,6 +26,11 @@ public class RoleBootstrap {
     @EventListener(PermissionPoliciesInitializedEvent.class)
     public void bootstrapAdminRole() {
 
+        if(roleService.existsByName("Admin")){
+            log.info("Role already exist", "Admin");
+            publisher.publishEvent(new RoleInitializedEvent());
+            return;
+        }
         List<RolePermissionDTO> permissions = properties.getClients()
                 .stream()
                 .flatMap(client -> client.getPermissions().stream()
@@ -37,6 +44,7 @@ public class RoleBootstrap {
                         )
                 )
                 .toList();
+
 
         RoleAddDTO adminRole = RoleAddDTO.builder()
                 .name("Admin")

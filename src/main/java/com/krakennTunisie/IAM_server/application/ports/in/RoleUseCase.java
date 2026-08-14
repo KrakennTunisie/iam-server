@@ -11,6 +11,7 @@ public interface RoleUseCase extends BaseUseCase<
         UserRoleUpdateDTO,
         String>{
     RoleDTO addPermissions(String roleName, List<RolePermissionDTO> permissions);
+    boolean existsByName(String roleName);
     RoleDTO getRoleByName(String roleName);
     RoleDTO revokePermission(String roleName, RolePermissionDTO permission);
     List<RoleSummaryDTO> getAllRoles();
