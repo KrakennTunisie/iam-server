@@ -39,6 +39,28 @@ public class AuditEventFactory {
         );
     }
 
+    public AuditEvent userCreated(
+            UUID correlationId,
+            String userId,
+            Map<String, Object> after,
+            String ipAddress,
+            Long enversRevision
+    ) {
+
+        return base(
+                correlationId,
+                "USER_CREATED",
+                "User",
+                userId,
+                null,
+                after,
+                true,
+                null,
+                ipAddress,
+                enversRevision
+        );
+    }
+
     public AuditEvent userUpdated(
             UUID correlationId,
             String userId,

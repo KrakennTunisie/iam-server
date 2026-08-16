@@ -13,6 +13,8 @@ public interface RoleRepositoryPort extends RepositoryPort<
 
     RoleDTO addPermissions(String roleName, List<RolePermissionDTO> permissions);
 
+    boolean existsByName(String roleName);
+
     RoleDTO revokePermission(String roleName, RolePermissionDTO permission);
 
     RoleDTO getRoleByName(String roleName);
