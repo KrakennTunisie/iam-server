@@ -1,21 +1,23 @@
 package com.krakennTunisie.IAM_server.shared;
 
+import com.krakennTunisie.IAM_server.infrastructure.out.messaging.AuditActor;
 import com.krakennTunisie.IAM_server.infrastructure.out.messaging.AuditEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuditEventFactory {
 
     private static final String SOURCE_SERVICE = "iam-service";
 
-    //private final AuditActorProvider auditActorProvider;
+    private final AuditActorProvider auditActorProvider;
 
     public AuditEvent passwordChanged(
             UUID correlationId,
@@ -178,17 +180,17 @@ public class AuditEventFactory {
             Long enversRevision
     ) {
 
-        //AuditActor auditActor = auditActorProvider.getCurrentActor();
-
+        AuditActor auditActor = auditActorProvider.getCurrentActor();
+        log.info("current user: {}", auditActor);
         return new AuditEvent(
                 UUID.randomUUID(),
                 correlationId,
                 Instant.now(),
                 SOURCE_SERVICE,
-                /*auditActor.userId()*/"714165ba-4115-45f2-a5d4-6240d521c6f3",
-                /*auditActor.firstName()*/ "Wassef",
-                /*auditActor.lastName()*/"Ammar",
-                /*auditActor.roles()*/List.of("Admin"),
+                auditActor.userId(),
+                auditActor.firstName(),
+                auditActor.lastName(),
+                auditActor.roles(),
                 action,
                 resourceType,
                 resourceId,
