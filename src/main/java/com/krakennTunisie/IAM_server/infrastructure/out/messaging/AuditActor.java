@@ -8,4 +8,13 @@ public record AuditActor(
         String lastName,
         List<String> roles
 ) {
+    @Override
+    public String toString() {
+        return "AuditActor{" +
+                "userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }
